@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { Card } from "react-bootstrap";
 import Hourly from "../temperatur/Hourly";
 import SliderDay from "../slider/SliderDay";
+import GeneralDay from "./GeneralDay";
 
 const Search = () => {
   const [show, setShow] = useState(false);
@@ -54,7 +55,7 @@ const Search = () => {
 
   return (
     <>
-      <AiOutlinePlus onClick={() => setShow(true)} />
+      {!data && <AiOutlinePlus onClick={() => setShow(true)} />}
       {console.log("apikey", process.env.API_KEY)}
       {console.log("data", data)}
       <Modal
@@ -65,27 +66,30 @@ const Search = () => {
       >
         <FormControl value={query} onChange={(e) => setQuery(e.target.value)} />
       </Modal>
-      <Card style={{ width: "95vw" }} className="mx-2">
-        <Card.Body>
-          {data && (
-            <Card.Text>
-              {data.name},{data.sys.country}
-              {format(new Date(data.dt * 1000), " ccc hh:mm aaa")}
-            </Card.Text>
-          )}
-          {data && (
-            <span>
-              {data.main.temp.toFixed()}&deg;, {data.weather[0].description}
-            </span>
-          )}
-        </Card.Body>
-      </Card>
+      {data && (
+        <Card className="mx-2 bg-transparent mt-4">
+          <Card.Body>
+            {data && (
+              <Card.Text>
+                {data.name},{data.sys.country}
+                {format(new Date(data.dt * 1000), " ccc hh:mm aaa")}
+              </Card.Text>
+            )}
+            {data && (
+              <span>
+                {data.main.temp.toFixed()}&deg;, {data.weather[0].description}
+              </span>
+            )}
+          </Card.Body>
+        </Card>
+      )}
 
       {data && <Temprature data={data} />}
 
-      {hourly && <SliderHour hourly={hourly} />}
-      {/* {hourly && <Hourly hourly={hourly.hourly} />} */}
+      {hourly && <SliderHour hourly={hourly.hourly} />}
+
       {hourly && <SliderDay daily={hourly.daily} />}
+      {hourly && <GeneralDay data={hourly} />}
     </>
   );
 };
