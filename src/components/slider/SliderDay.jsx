@@ -27,13 +27,14 @@ const responsive = {
 const SliderDay = ({ daily }) => {
   return (
     <>
-      <Carousel responsive={responsive} className=" bg-warning">
+      <Carousel
+        responsive={responsive}
+        className="bg-transparent mt-4 border-top"
+      >
         {daily.map((time, i) => (
           <>
-            <div className="d-flex flex-column">
-              <span className=" border-bottom">
-                {format(new Date(time.dt * 1000), "ccc")}
-              </span>
+            <div className="d-flex flex-column ">
+              <span>{format(new Date(time.dt * 1000), "ccc")}</span>
               <div>
                 <img
                   className="mt-n3"
@@ -46,19 +47,16 @@ const SliderDay = ({ daily }) => {
                 {time.humidity}%
               </span>
               <div className="my-4 d-flex flex-column">
-                <span>hi</span>
+                <span>{time.temp.max.toFixed()}%</span>
                 <span>
                   <FaTemperatureHigh style={{ fontSize: "30px" }} />
                 </span>
-                <span>hoho</span>
+                <span>{time.temp.min.toFixed()}%</span>
               </div>
             </div>
           </>
         ))}
       </Carousel>
-      <div>hey</div>
-      <div>hey</div>
-      <div>hey</div>
     </>
   );
 };
