@@ -7,7 +7,7 @@ function App() {
     <div
       className="App"
       style={{
-        backgroundImage: `url(https://img.freepik.com/free-vector/elegant-cloud-background-blue-sky-design_1017-25503.jpg?size=626&ext=jpg)`,
+        backgroundImage: `url(https://img.freepik.com/free-vector/elegant-cloud-background-blue-sky-design_1017-25503.jpg?size=626&ext=jpg),`,
       }}
     >
       <Container>
