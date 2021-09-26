@@ -2,10 +2,16 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import favReducer from "../reducer/favorite";
 import weatherReducer from "../reducer/weather";
+import dailyReducer from "../reducer/timelyInfo";
 
 export const initialState = {
   weather: {
-    datail: [],
+    detail: [],
+    error: false,
+    loading: true,
+  },
+  timelyInfo: {
+    daily: [],
     error: false,
     loading: true,
   },
@@ -16,6 +22,7 @@ export const initialState = {
 const rootReducer = combineReducers({
   weather: weatherReducer,
   favorite: favReducer,
+  timelyInfo: dailyReducer,
 });
 
 const configStore = createStore(
