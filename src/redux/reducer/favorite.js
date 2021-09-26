@@ -6,7 +6,16 @@ const favReducer = (state = initialState.favorite, action) => {
     case TOGGLE_FAV:
       return {
         ...state,
-        fav: state.cities.concat(action.payload),
+        cities: state.cities.includes(action.payload)
+          ? state.cities
+              .slice(0, state.cities.indexOf(action.payload))
+              .concat(
+                state.cities.slice(
+                  state.cities.indexOf(action.payload) + 1,
+                  state.cities.length
+                )
+              )
+          : state.cities.concat(action.payload),
       };
     default:
       return state;
