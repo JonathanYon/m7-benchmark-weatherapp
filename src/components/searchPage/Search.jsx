@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Modal, FormControl, Form, Button } from "react-bootstrap";
+import { Modal, FormControl, Card } from "react-bootstrap";
+import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import Temprature from "../temperatur/Temprature";
 import SliderHour from "../slider/SliderHour";
 import { format } from "date-fns";
-import { Card } from "react-bootstrap";
-import Hourly from "../temperatur/Hourly";
 import SliderDay from "../slider/SliderDay";
 import GeneralDay from "./GeneralDay";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { cityInfoWeatherAction, cityWeatherAction } from "../../redux/action";
+import {
+  cityInfoWeatherAction,
+  cityWeatherAction,
+  toggleFav,
+} from "../../redux/action";
 
 const Search = () => {
   const [show, setShow] = useState(false);
@@ -20,6 +23,7 @@ const Search = () => {
 
   const data = useSelector((state) => state.weather.detail[0]);
   const hourly = useSelector((state) => state.timelyInfo.daily[0]);
+  const fav = useSelector((state) => state.favorite.cities);
   const despatch = useDispatch();
   // const despatch_ = useDispatch();
   console.log("data|", data?.coord.lon);
@@ -66,10 +70,6 @@ const Search = () => {
     // };
   }, [query]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
-
   return (
     <>
       {!data && <AiOutlinePlus onClick={() => setShow(true)} />}
@@ -88,6 +88,11 @@ const Search = () => {
       </Modal>
       {data && (
         <Card className="mx-2 bg-transparent mt-4">
+          {fav.includes(data) ? (
+            <AiFillStar onClick={() => despatch(toggleFav(data))} />
+          ) : (
+            <AiOutlineStar onClick={() => despatch(toggleFav(data))} />
+          )}
           <Card.Body>
             {data && (
               <Card.Text>
