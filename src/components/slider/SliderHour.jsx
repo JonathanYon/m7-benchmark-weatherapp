@@ -29,9 +29,10 @@ class SliderHour extends Component {
   render() {
     return (
       <>
+        <span>Hour</span>
         <Carousel responsive={responsive} className=" border-top mt-4">
           {this.props.hourly.map((time, i) => (
-            <div className="d-flex flex-column bg-transparent">
+            <div className="d-flex flex-column bg-transparent" key={1 + i}>
               <span>{new Date(time.dt * 1000).getHours()}:00</span>
               <div>
                 <img
@@ -47,7 +48,7 @@ class SliderHour extends Component {
             </div>
           ))}
         </Carousel>
-        {/* <span>more..</span> */}
+        <span className="">more..</span>
       </>
     );
   }

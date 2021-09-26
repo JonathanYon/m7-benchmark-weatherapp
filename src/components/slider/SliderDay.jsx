@@ -27,13 +27,14 @@ const responsive = {
 const SliderDay = ({ daily }) => {
   return (
     <>
+      <span>Daily</span>
       <Carousel
         responsive={responsive}
         className="bg-transparent mt-4 border-top"
       >
         {daily.map((time, i) => (
           <>
-            <div className="d-flex flex-column ">
+            <div className="d-flex flex-column " key={1 + i}>
               <span>{format(new Date(time.dt * 1000), "ccc")}</span>
               <div>
                 <img
