@@ -8,6 +8,8 @@ const favReducer = (state = initialState.favorite, action) => {
         ...state,
         fav: state.cities.concat(action.payload),
       };
+    default:
+      return state;
   }
 };
 export default favReducer;

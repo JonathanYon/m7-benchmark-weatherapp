@@ -22,6 +22,7 @@ const configStore = createStore(
   rootReducer,
   initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__
-    ? window.__REDUX_DEVTOOLS_EXTENSION__COMPOSE_(applyMiddleware(thunk))
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(applyMiddleware(thunk))
     : compose(applyMiddleware(thunk))
 );
+export default configStore;
