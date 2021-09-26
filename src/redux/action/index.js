@@ -76,3 +76,8 @@ export const cityInfoWeatherAction = (lat, lon) => {
     }
   };
 };
+
+export const toggleFav = (data) => ({
+  type: TOGGLE_FAV,
+  payload: data,
+});
