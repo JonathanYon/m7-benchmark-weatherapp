@@ -6,7 +6,7 @@ const weatherReducer = (state = initialState.weather, action) => {
     case GET_WEATHER:
       return {
         ...state,
-        datail: [...state.datail, action.payload],
+        detail: [action.payload],
       };
     case SET_ERROR:
       return {
