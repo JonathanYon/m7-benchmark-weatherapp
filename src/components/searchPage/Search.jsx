@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Modal, FormControl } from "react-bootstrap";
+import { Modal, FormControl, Form, Button } from "react-bootstrap";
 import Temprature from "../temperatur/Temprature";
 import SliderHour from "../slider/SliderHour";
 import { format } from "date-fns";
@@ -8,50 +8,67 @@ import { Card } from "react-bootstrap";
 import Hourly from "../temperatur/Hourly";
 import SliderDay from "../slider/SliderDay";
 import GeneralDay from "./GeneralDay";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { cityInfoWeatherAction, cityWeatherAction } from "../../redux/action";
 
 const Search = () => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState(undefined);
+  // const [data, setData] = useState(undefined);
   const [query, setQuery] = useState("");
-  const [hourly, setHourly] = useState(undefined);
+  // const [hourly, setHourly] = useState(undefined);
 
+  const data = useSelector((state) => state.weather.detail[0]);
+  const hourly = useSelector((state) => state.timelyInfo.daily[0]);
+  const despatch = useDispatch();
+  // const despatch_ = useDispatch();
+  console.log("data|", data?.coord.lon);
+  console.log("hourly=>", hourly);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=678b131125c510fd6d8c5158e03f8e33&units=metric` //const units = metric || imperial
-        );
-        if (response.ok) {
-          const res = await response.json();
-          hourlyData(res.coord.lon, res.coord.lon);
-          console.log("in fetch", res.name);
-          setData(res);
-        } else {
-          console.log("error in search fetch");
-        }
-      } catch (error) {
-        console.log("catcha", error);
-      }
-    };
-    fetchData();
+    despatch(cityWeatherAction(query));
 
-    const hourlyData = async (lon, lat) => {
-      try {
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=678b131125c510fd6d8c5158e03f8e33&units=metric` //const units = metric || imperial
-        );
-        if (response.ok) {
-          const res = await response.json();
-          console.log("hourly", res);
-          setHourly(res);
-        } else {
-          console.log("error in hourly fetch");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    despatch(cityInfoWeatherAction(data?.coord.lon, data?.coord.lon));
+
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await fetch(
+    //       `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=678b131125c510fd6d8c5158e03f8e33&units=metric` //const units = metric || imperial
+    //     );
+    //     if (response.ok) {
+    //       const res = await response.json();
+    //       hourlyData(res.coord.lon, res.coord.lon);
+    //       console.log("in fetch", res.name);
+    //       setData(res);
+    //     } else {
+    //       console.log("error in search fetch");
+    //     }
+    //   } catch (error) {
+    //     console.log("catcha", error);
+    //   }
+    // };
+    // fetchData();
+
+    // const hourlyData = async (lon, lat) => {
+    //   try {
+    //     const response = await fetch(
+    //       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=678b131125c510fd6d8c5158e03f8e33&units=metric` //const units = metric || imperial
+    //     );
+    //     if (response.ok) {
+    //       const res = await response.json();
+    //       console.log("hourly", res);
+    //       setHourly(res);
+    //     } else {
+    //       console.log("error in hourly fetch");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
   }, [query]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <>
@@ -64,7 +81,10 @@ const Search = () => {
         dialogClassName="modal-60w"
         aria-labelledby="example-custom-modal-styling-title"
       >
+        {/* <Form onSubmit={handleSubmit}> */}
         <FormControl value={query} onChange={(e) => setQuery(e.target.value)} />
+        {/* <Button type="submit">Search</Button>
+        </Form> */}
       </Modal>
       {data && (
         <Card className="mx-2 bg-transparent mt-4">
